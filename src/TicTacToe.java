@@ -113,4 +113,40 @@ public class TicTacToe extends JFrame{
 			}
 		});
 	}
+
+	public JButton getBtn1() {
+		return btn1;
+	}
+
+	public JButton getBtn2() {
+		return btn2;
+	}
+
+	public JButton getBtn3() {
+		return btn3;
+	}
+
+	public JButton getBtn4() {
+		return btn4;
+	}
+
+	public JButton getBtn5() {
+		return btn5;
+	}
+
+	public JButton getBtn6() {
+		return btn6;
+	}
+
+	public JButton getBtn7() {
+		return btn7;
+	}
+
+	public JButton getBtn8() {
+		return btn8;
+	}
+
+	public JButton getBtn9() {
+		return btn9;
+	}
 }
