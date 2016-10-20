@@ -1,152 +1,100 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class TicTacToe extends JFrame{
-	private JButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9;
+public class TicTacToe extends JPanel{
+	private JButton buttons[]; 
+	private JButton button;
+	private int alternate = 0;
+	final static int COUNT = 9;
+	Panel panel = new Panel();
+    Dimension dimen = new Dimension(100, 100);
+    
 	public TicTacToe() {
+		buttons = new JButton[9];		
+		setLayout(new GridLayout(3,3));
 		initGraphic();
 	}
 	
-	private void btn1ActionPerformed(ActionEvent e) {
-		
-	}
-	
-	private void btn2ActionPerformed(ActionEvent e) {
-		
-	}
-	
-	private void btn3ActionPerformed(ActionEvent e) {
-		
-	}
-
-	private void btn4ActionPerformed(ActionEvent e) {
-		
-	}
-	
-	private void btn5ActionPerformed(ActionEvent e) {
-		
-	}
-	
-	private void btn6ActionPerformed(ActionEvent e) {
-		
-	}
-	
-	private void btn7ActionPerformed(ActionEvent e) {
-		
-	}
-	
-	private void btn8ActionPerformed(ActionEvent e) {
-		
-	}
-	
-	private void btn9ActionPerformed(ActionEvent e) {
-		
-	}
-	
 	private void initGraphic() {
-		btn1 = new JButton("");
-		btn2 = new JButton("");
-		btn3 = new JButton("");
-		btn4 = new JButton("");
-		btn5 = new JButton("");
-		btn6 = new JButton("");
-		btn7 = new JButton("");
-		btn8 = new JButton("");
-		btn9 = new JButton("");
-		
-		setTitle("Tic Tac Toe");
-		Container contentPane = getContentPane();
-		btn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				btn1ActionPerformed(e);
-			}
-		});
-		
-		btn2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				btn2ActionPerformed(e);
-			}
-		});
-		
-		btn3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				btn3ActionPerformed(e);
-			}
-		});
-		
-		btn4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				btn4ActionPerformed(e);
-			}
-		});
-		
-		btn5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				btn5ActionPerformed(e);
-			}
-		});
-		
-		btn6.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				btn6ActionPerformed(e);
-			}
-		});
-		
-		btn7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				btn7ActionPerformed(e);
-			}
-		});
-		
-		btn8.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				btn8ActionPerformed(e);
-			}
-		});
-		
-		btn9.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				btn9ActionPerformed(e);
-			}
-		});
+		for(int i = 0; i < COUNT; i++){
+			button = new JButton("");
+			buttons[i] = button;
+			buttons[i].addActionListener(new buttonListener());
+            add(buttons[i]);
+		}		
 	}
-
-	public JButton getBtn1() {
-		return btn1;
-	}
-
-	public JButton getBtn2() {
-		return btn2;
-	}
-
-	public JButton getBtn3() {
-		return btn3;
-	}
-
-	public JButton getBtn4() {
-		return btn4;
-	}
-
-	public JButton getBtn5() {
-		return btn5;
-	}
-
-	public JButton getBtn6() {
-		return btn6;
-	}
-
-	public JButton getBtn7() {
-		return btn7;
-	}
-
-	public JButton getBtn8() {
-		return btn8;
-	}
-
-	public JButton getBtn9() {
-		return btn9;
-	}
+	
+	public void resetButtons() {
+        for(int i = 0; i <= 8; i++)
+        {
+            buttons[i].setText("");
+        }
+    }
+	
+	private class buttonListener implements ActionListener {
+       
+        public void actionPerformed(ActionEvent e) {
+            
+            JButton buttonClicked = (JButton)e.getSource(); //get the particular button that was clicked
+            if(alternate%2 == 0)
+                buttonClicked.setText("X");
+            else
+                buttonClicked.setText("O");
+            
+            if(checkForWin() == true)
+            {
+                JOptionPane.showConfirmDialog(null, "Game Over.");
+                resetButtons();
+            }
+                
+            alternate++;
+            
+        }
+        
+        public boolean checkForWin() {
+            /**   Reference: the button array is arranged like this as the board
+             *      0 | 1 | 2
+             *      3 | 4 | 5
+             *      6 | 7 | 8
+             */
+            //horizontal win check
+            if( checkAdjacent(0,1) && checkAdjacent(1,2) ) //no need to put " == true" because the default check is for true
+                return true;
+            else if( checkAdjacent(3,4) && checkAdjacent(4,5) )
+                return true;
+            else if ( checkAdjacent(6,7) && checkAdjacent(7,8))
+                return true;
+            
+            //vertical win check
+            else if ( checkAdjacent(0,3) && checkAdjacent(3,6))
+                return true;  
+            else if ( checkAdjacent(1,4) && checkAdjacent(4,7))
+                return true;
+            else if ( checkAdjacent(2,5) && checkAdjacent(5,8))
+                return true;
+            
+            //diagonal win check
+            else if ( checkAdjacent(0,4) && checkAdjacent(4,8))
+                return true;  
+            else if ( checkAdjacent(2,4) && checkAdjacent(4,6))
+                return true;
+            else 
+                return false;
+            
+            
+        }
+        
+        public boolean checkAdjacent(int a, int b)
+        {
+            if ( buttons[a].getText().equals(buttons[b].getText()) && !buttons[a].getText().equals("") )
+                return true;
+            else
+                return false;
+        }
+        
+    }
 }
