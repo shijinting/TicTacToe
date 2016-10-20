@@ -1,10 +1,10 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class TicTacToe extends JPanel{
 	private JButton buttons[]; 
 	private JButton button;
@@ -130,10 +130,6 @@ public class TicTacToe extends JPanel{
 
 		private void setWinningPlayer(String text) {
 			this.winningPlayer = text;
-		}
-		
-		private String getWinningPlayer() {
-			return this.winningPlayer;
 		}
         
     }
