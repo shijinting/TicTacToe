@@ -6,21 +6,23 @@ import javax.swing.JButton;
 public class AIPlayerLookup {
 	 
 	   private JButton buttons[];
+	   private int mode;
 	   // Constructor
-	   public AIPlayerLookup(JButton buttons[]) {
+	   public AIPlayerLookup(JButton buttons[], int mode) {
 	      this.buttons = buttons;
+	      this.mode = mode;
 	   }
 	   
 	   // Move step
 	   public void move(int player) {
-		  int[] moveResult = minmax(4, player);
-		  if(player == 0) {
-			  System.out.println("Player moved");
-		  }else{
-			  System.out.println("result: " + moveResult[1]);
-			  buttons[moveResult[1]].doClick();
-			  System.out.println("Computer moved");
-		  }
+		   int[] moveResult = minmax(4, player);
+		   if(player == 0) {
+			   System.out.println("Player moved");
+		   }else{
+			   System.out.println("result: " + moveResult[1]);
+			   buttons[moveResult[1]].doClick();
+			   System.out.println("Computer moved");
+		   }
 	   }
 	   
 	private int[] minmax(int depth, int player) {
@@ -61,25 +63,60 @@ public class AIPlayerLookup {
 	   }
 	   
 	private int evaluate() {
-		int score = 0, i = 0, verticalCount = 3;
-	      // Evaluate score for each of the 8 lines (3 rows, 3 columns, 2 diagonals)
-		for(int j = 0; j < verticalCount; j ++){
-    		score += new LineEvaluator(buttons, i, i + 1, i + 1 * 2).evaluateLineSize3();
-    		score += new LineEvaluator(buttons, j, j + verticalCount, j + verticalCount * 2).evaluateLineSize3();
-    		i += verticalCount;
-    	}
-		i = 0;
+		int score = 0, i = 0, verticalCount;
+		if (mode == 1) {
+			verticalCount = 3;
+		      // Evaluate score for each of the 3x3 (3 rows, 3 columns, 2 diagonals)
+			for(int j = 0; j < verticalCount; j ++){
+	    		score += new LineEvaluator(buttons, i, i + 1, i + 1 * 2).evaluateLineSize3();
+	    		score += new LineEvaluator(buttons, j, j + verticalCount, j + verticalCount * 2).evaluateLineSize3();
+	    		i += verticalCount;
+	    	}
+			i = 0;
+			
+		    score += new LineEvaluator(buttons, 0, 4, 8).evaluateLineSize3();  // diagonal
+		    score += new LineEvaluator(buttons, 2, 4, 6).evaluateLineSize3();  // alternate diagonal
+		}else if (mode == 2) {
+			verticalCount = 4;
+		      // Evaluate score for each of the 4x4 (4 rows, 4 columns, 2 diagonals)
+			for(int j = 0; j < verticalCount; j ++){
+	    		score += new LineEvaluator(buttons, i, i + 1, i + 1 * 2, i + 1 * 3).evaluateLineSize4();
+	    		score += new LineEvaluator(buttons, j, j + verticalCount, j + verticalCount * 2, j + verticalCount * 3).evaluateLineSize4();
+	    		i += verticalCount;
+	    	}
+			i = 0;
+			
+		    score += new LineEvaluator(buttons, 0, 5, 10, 15).evaluateLineSize4();  // diagonal
+		    score += new LineEvaluator(buttons, 3, 6, 9, 12).evaluateLineSize4();  // alternate diagonal
+		}else if (mode == 3) {
+			verticalCount = 5;
+		      // Evaluate score for each of the 4x4 (4 rows, 4 columns, 2 diagonals)
+			for(int j = 0; j < verticalCount; j ++){
+	    		score += new LineEvaluator(buttons, i, i + 1, i + 1 * 2, i + 1 * 3, i + 1 * 4).evaluateLineSize5();
+	    		score += new LineEvaluator(buttons, j, j + verticalCount, j + verticalCount * 2, j + verticalCount * 3, j + verticalCount * 4).evaluateLineSize5();
+	    		i += verticalCount;
+	    	}
+			i = 0;
+			
+		    score += new LineEvaluator(buttons, 0, 6, 12, 18, 24).evaluateLineSize5();  // diagonal
+		    score += new LineEvaluator(buttons, 4, 8, 12, 16, 20).evaluateLineSize5();  // alternate diagonal
+		}
 		
-	    score += new LineEvaluator(buttons, 0, 4, 8).evaluateLineSize3();  // diagonal
-	    score += new LineEvaluator(buttons, 2, 4, 6).evaluateLineSize3();  // alternate diagonal
 		return score;
 	}
 
 	private List<Integer> generateMoves() {
 	      List<Integer> nextMoves = new ArrayList<Integer>(); // Allocate List
-	 
+	      int count = 0;
+	      if (mode == 1) {
+	    	  count = 9;
+	      }else if (mode == 2) {
+	    	  count = 16;
+	      }else if (mode == 3) {
+	    	  count = 25;
+	      }
 	      // Search for empty button and add to the List
-	      for(int i = 0; i < 9; i++) {
+	      for(int i = 0; i < count; i++) {
 	    	 if(buttons[i].getText().equals("")){
 	    		 nextMoves.add(i);
 	    	 }
