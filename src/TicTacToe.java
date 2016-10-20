@@ -86,36 +86,33 @@ public class TicTacToe extends JPanel{
         }
         
         public boolean checkForWin() {
+        	int i = 0, ltrDiagonalCount = 4, verticalCount = 3, rtlDiagonalCount = 2;
             /**   Reference: the button array is arranged like this as the board
              *      0 | 1 | 2
              *      3 | 4 | 5
              *      6 | 7 | 8
              */
             //horizontal win check
-            if( checkAdjacent(0,1) && checkAdjacent(1,2) ) //no need to put " == true" because the default check is for true
-                return true;
-            else if( checkAdjacent(3,4) && checkAdjacent(4,5) )
-                return true;
-            else if ( checkAdjacent(6,7) && checkAdjacent(7,8))
-                return true;
+        	for(int j = 0; j < verticalCount; j += verticalCount){
+        		if( checkAdjacent(j,j + 1) && checkAdjacent(j + 1, j + verticalCount - 1) ) //no need to put " == true" because the default check is for true
+                    return true;
+        	}
             
             //vertical win check
-            else if ( checkAdjacent(0,3) && checkAdjacent(3,6))
-                return true;  
-            else if ( checkAdjacent(1,4) && checkAdjacent(4,7))
-                return true;
-            else if ( checkAdjacent(2,5) && checkAdjacent(5,8))
-                return true;
+        	for(int j = 0; j < verticalCount; j ++){
+        		if( checkAdjacent(j,j + verticalCount) && checkAdjacent(j + verticalCount, j + (verticalCount*2)) ) //no need to put " == true" because the default check is for true
+                    return true;
+        	}
             
             //diagonal win check
-            else if ( checkAdjacent(0,4) && checkAdjacent(4,8))
-                return true;  
-            else if ( checkAdjacent(2,4) && checkAdjacent(4,6))
+        	if( checkAdjacent(i, ltrDiagonalCount) && checkAdjacent(ltrDiagonalCount, i + (ltrDiagonalCount*2)) ) //no need to put " == true" because the default check is for true
+                return true;
+        	
+        	i = i + rtlDiagonalCount;
+        	if( checkAdjacent(i,i + rtlDiagonalCount) && checkAdjacent(i + rtlDiagonalCount, i + (i + rtlDiagonalCount*2)) ) //no need to put " == true" because the default check is for true
                 return true;
             else 
                 return false;
-            
-            
         }
         
         public boolean checkAdjacent(int a, int b)
