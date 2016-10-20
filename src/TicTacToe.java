@@ -93,16 +93,15 @@ public class TicTacToe extends JPanel{
              *      6 | 7 | 8
              */
             //horizontal win check
-        	for(int j = 0; j < verticalCount; j += verticalCount){
-        		if( checkAdjacent(j,j + 1) && checkAdjacent(j + 1, j + verticalCount - 1) ) //no need to put " == true" because the default check is for true
-                    return true;
-        	}
-            
-            //vertical win check
         	for(int j = 0; j < verticalCount; j ++){
+        		if( checkAdjacent(i,i + 1) && checkAdjacent(i + 1, i + 1 * 2) ) //no need to put " == true" because the default check is for true
+                    return true;
+                //vertical win check
         		if( checkAdjacent(j,j + verticalCount) && checkAdjacent(j + verticalCount, j + (verticalCount*2)) ) //no need to put " == true" because the default check is for true
                     return true;
+        		i += verticalCount;
         	}
+            i = 0;
             
             //diagonal win check
         	if( checkAdjacent(i, ltrDiagonalCount) && checkAdjacent(ltrDiagonalCount, i + (ltrDiagonalCount*2)) ) //no need to put " == true" because the default check is for true

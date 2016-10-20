@@ -61,14 +61,15 @@ public class AIPlayerLookup {
 	   }
 	   
 	private int evaluate() {
-		int score = 0;
+		int score = 0, i = 0, verticalCount = 3;
 	      // Evaluate score for each of the 8 lines (3 rows, 3 columns, 2 diagonals)
-	      score += evaluateLine(0, 1, 2);  // row 0
-	      score += evaluateLine(3, 4, 5);  // row 1
-	      score += evaluateLine(6, 7, 8);  // row 2
-	      score += evaluateLine(0, 3, 6);  // col 0
-	      score += evaluateLine(1, 4, 7);  // col 1
-	      score += evaluateLine(2, 5, 8);  // col 2
+		for(int j = 0; j < verticalCount; j ++){
+    		score += evaluateLine(i, i + 1, i + 1 * 2);
+    		score += evaluateLine(j, j + verticalCount, j + verticalCount * 2);
+    		i += verticalCount;
+    	}
+		i = 0;
+		
 	      score += evaluateLine(0, 4, 8);  // diagonal
 	      score += evaluateLine(2, 4, 6);  // alternate diagonal
 		return score;
