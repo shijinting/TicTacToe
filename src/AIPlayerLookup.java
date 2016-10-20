@@ -64,65 +64,15 @@ public class AIPlayerLookup {
 		int score = 0, i = 0, verticalCount = 3;
 	      // Evaluate score for each of the 8 lines (3 rows, 3 columns, 2 diagonals)
 		for(int j = 0; j < verticalCount; j ++){
-    		score += evaluateLine(i, i + 1, i + 1 * 2);
-    		score += evaluateLine(j, j + verticalCount, j + verticalCount * 2);
+    		score += new LineEvaluator(buttons, i, i + 1, i + 1 * 2).evaluateLineSize3();
+    		score += new LineEvaluator(buttons, j, j + verticalCount, j + verticalCount * 2).evaluateLineSize3();
     		i += verticalCount;
     	}
 		i = 0;
 		
-	      score += evaluateLine(0, 4, 8);  // diagonal
-	      score += evaluateLine(2, 4, 6);  // alternate diagonal
+	    score += new LineEvaluator(buttons, 0, 4, 8).evaluateLineSize3();  // diagonal
+	    score += new LineEvaluator(buttons, 2, 4, 6).evaluateLineSize3();  // alternate diagonal
 		return score;
-	}
-
-	private int evaluateLine(int firstBtn, int secondBtn, int thirdBtn) {
-		int score = 0;
-		 
-	      // First button
-	      if (buttons[firstBtn].getText().equals("X")) {
-	         score = 1;
-	      } else if (buttons[firstBtn].getText().equals("O")) {
-	         score = -1;
-	      }
-	 
-	      // Second button
-	      if (buttons[secondBtn].getText().equals("X")) {
-	         if (score == 1) {   // First button is X
-	            score = 10;
-	         } else if (score == -1) {  // First button is O
-	            return 0;
-	         } else {  // First button is empty
-	            score = 1;
-	         }
-	      } else if (buttons[secondBtn].getText().equals("O")) {
-	         if (score == -1) { // First button is O
-	            score = -10;
-	         } else if (score == 1) { // First button is X
-	            return 0;
-	         } else {  // First button is empty
-	            score = -1;
-	         }
-	      }
-	 
-	      // Third button
-	      if (buttons[thirdBtn].getText().equals("X")) {
-	         if (score > 0) {  // First button and/or second button is X
-	            score *= 10;
-	         } else if (score < 0) {  // First button and/or second button is O
-	            return 0;
-	         } else {  // First button and second button is empty
-	            score = 1;
-	         }
-	      } else if (buttons[thirdBtn].getText().equals("O")) {
-	         if (score < 0) {  // First button and/or second button is O
-	            score *= 10;
-	         } else if (score > 1) {  // First button and/or second button is X
-	            return 0;
-	         } else {  // First button and second button is empty
-	            score = -1;
-	         }
-	      }
-	      return score;
 	}
 
 	private List<Integer> generateMoves() {
