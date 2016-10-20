@@ -40,17 +40,23 @@ public class TicTacToe extends JPanel{
         public void actionPerformed(ActionEvent e) {
             
             JButton buttonClicked = (JButton)e.getSource(); //get the particular button that was clicked
-            if(alternate%2 == 0)
-                buttonClicked.setText("X");
-            else
-                buttonClicked.setText("O");
+            if(alternate%2 == 0) {
+            	if(buttonClicked.getText().equals("")){
+            		buttonClicked.setText("X");
+            	}
+            }
+            else{
+//            	if(buttonClicked.getText().equals("")){
+//            		buttonClicked.setText("O");
+//            	}
+            	//AI Player starts here
+            }
             
             if(checkForWin() == true)
             {
                 JOptionPane.showConfirmDialog(null, "Game Over.");
                 resetButtons();
             }
-                
             alternate++;
             
         }
