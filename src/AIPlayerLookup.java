@@ -14,13 +14,12 @@ public class AIPlayerLookup {
 	    *  Assume that next move is available, i.e., not gameover
 	    *  @return int[2] of {row, col}
 	    */
-	   public JButton move() {
+	   public void move() {
 	      for (int move : preferredMoves) {
 	    	 if(buttons[move].getText().equals("")){
-	    		 return buttons[move];
+	    		 buttons[move].doClick();
+	    		 break;
 	    	 }
 	      }
-	      assert false : "No empty cell?!";
-	      return null;
 	   }
 	}

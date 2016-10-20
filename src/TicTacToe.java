@@ -9,6 +9,7 @@ public class TicTacToe extends JPanel{
 	private JButton buttons[]; 
 	private JButton button;
 	private int alternate = 0;
+	private AIPlayerLookup aiLookup;
 	final static int COUNT = 9;
 	Panel panel = new Panel();
     Dimension dimen = new Dimension(100, 100);
@@ -25,7 +26,8 @@ public class TicTacToe extends JPanel{
 			buttons[i] = button;
 			buttons[i].addActionListener(new buttonListener());
             add(buttons[i]);
-		}		
+		}
+		aiLookup = new AIPlayerLookup(buttons);
 	}
 	
 	public void resetButtons() {
@@ -43,12 +45,15 @@ public class TicTacToe extends JPanel{
             if(alternate%2 == 0) {
             	if(buttonClicked.getText().equals("")){
             		buttonClicked.setText("X");
+            		alternate++;
+            		aiLookup.move();
             	}
             }
             else{
-//            	if(buttonClicked.getText().equals("")){
-//            		buttonClicked.setText("O");
-//            	}
+            	if(buttonClicked.getText().equals("")){
+            		buttonClicked.setText("O");
+            		alternate++;
+            	}
             	//AI Player starts here
             }
             
@@ -57,7 +62,6 @@ public class TicTacToe extends JPanel{
                 JOptionPane.showConfirmDialog(null, "Game Over.");
                 resetButtons();
             }
-            alternate++;
             
         }
         
