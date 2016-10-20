@@ -37,32 +37,52 @@ public class TicTacToe extends JPanel{
         }
     }
 	
-	private class buttonListener implements ActionListener {
-       
+	public class buttonListener implements ActionListener {
+		private String winningPlayer;
         public void actionPerformed(ActionEvent e) {
             
             JButton buttonClicked = (JButton)e.getSource(); //get the particular button that was clicked
             if(alternate%2 == 0) {
             	if(buttonClicked.getText().equals("")){
-            		buttonClicked.setText("X");
+            		buttonClicked.setText("O");
+            		aiLookup.move(alternate % 2);
             		alternate++;
-            		aiLookup.move();
             	}
             }
             else{
             	if(buttonClicked.getText().equals("")){
-            		buttonClicked.setText("O");
+            		buttonClicked.setText("X");
             		alternate++;
             	}
             	//AI Player starts here
             }
             
-            if(checkForWin() == true)
-            {
-                JOptionPane.showConfirmDialog(null, "Game Over.");
+            if(checkForWin() == true) {
+            	if (this.winningPlayer.equals("X")) {
+            		JOptionPane.showConfirmDialog(null, "Sorry you lose!");
+            	} else {
+            		JOptionPane.showConfirmDialog(null, "You win!");
+            	}
+            	alternate = 0;
                 resetButtons();
+            } else {
+            	boolean consistEmpty = false;
+            	for(int i = 0; i < COUNT; i++) {
+            		if(buttons[i].getText().equals("")){
+            			consistEmpty = true;
+            		}
+            	}
+            	
+            	if(!consistEmpty) {
+            		JOptionPane.showConfirmDialog(null, "Draw! No one won!");
+            		alternate = 0;
+            		resetButtons();
+            	} else {
+                    if (alternate % 2 == 1) {
+                    	aiLookup.move(alternate % 2);
+                    }
+            	}
             }
-            
         }
         
         public boolean checkForWin() {
@@ -100,11 +120,21 @@ public class TicTacToe extends JPanel{
         
         public boolean checkAdjacent(int a, int b)
         {
-            if ( buttons[a].getText().equals(buttons[b].getText()) && !buttons[a].getText().equals("") )
-                return true;
+            if ( buttons[a].getText().equals(buttons[b].getText()) && !buttons[a].getText().equals("") ){
+            	setWinningPlayer(buttons[a].getText());
+            	return true;
+            }
             else
                 return false;
         }
+
+		private void setWinningPlayer(String text) {
+			this.winningPlayer = text;
+		}
+		
+		private String getWinningPlayer() {
+			return this.winningPlayer;
+		}
         
     }
 }
