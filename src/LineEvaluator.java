@@ -32,6 +32,7 @@ public class LineEvaluator {
 	
 	public int evaluateLineSize3() {
 		// First button
+		System.out.println("hi:" + firstBtn + " " + secondBtn + " " + thirdBtn);
 		if (buttons[firstBtn].getText().equals("X")) {
 		     score = 1;
 		} else if (buttons[firstBtn].getText().equals("O")) {
@@ -42,6 +43,7 @@ public class LineEvaluator {
 	    if (buttons[secondBtn].getText().equals("X")) {
 	    	if (score == 1) {   // First button is X
 	            score = 10;
+	            System.out.println("Score 10: " + score );
 	        } else if (score == -1) {  // First button is O
 	        	return 0;
 	        } else {  // First button is empty
@@ -75,6 +77,7 @@ public class LineEvaluator {
 	            score = -1;
 	        }
 	    }
+	    System.out.println("score:" + score);
 	    return score;
 	}
 	

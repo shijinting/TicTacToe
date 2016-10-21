@@ -40,22 +40,24 @@ public class TicTacToe extends JPanel{
 		aiLookup = new AIPlayerLookup(buttons, mode);
 	}
 	
-	public void resetButtons() {
-        for(int i = 0; i < count; i++)
-        {
-            buttons[i].setText("");
-        }
+	public void resetButtons(int reply) {
+		if(reply == JOptionPane.YES_OPTION) {
+			for(int i = 0; i < count; i++)
+	        {
+	            buttons[i].setText("");
+	        }
+		} else {
+			PlayGame.initMenu();
+		}
     }
 	
 	public class buttonListener implements ActionListener {
 		private String winningPlayer;
         public void actionPerformed(ActionEvent e) {
-            
             JButton buttonClicked = (JButton)e.getSource(); //get the particular button that was clicked
             if(alternate%2 == 0) {
             	if(buttonClicked.getText().equals("")){
             		buttonClicked.setText("O");
-            		aiLookup.move(alternate % 2);
             		alternate++;
             	}
             }
@@ -68,13 +70,14 @@ public class TicTacToe extends JPanel{
             }
             
             if(checkForWin() == true) {
+            	int reply;
             	if (this.winningPlayer.equals("X")) {
-            		JOptionPane.showConfirmDialog(null, "Sorry you lose!");
+            		reply = JOptionPane.showConfirmDialog(null, "Sorry you lose!", "Do you want to play again?", JOptionPane.YES_NO_OPTION);
             	} else {
-            		JOptionPane.showConfirmDialog(null, "You win!");
+            		reply = JOptionPane.showConfirmDialog(null, "You win!", "Do you want to play again?", JOptionPane.YES_NO_OPTION);
             	}
             	alternate = 0;
-                resetButtons();
+                resetButtons(reply);
             } else {
             	boolean consistEmpty = false;
             	for(int i = 0; i < count; i++) {
@@ -84,9 +87,9 @@ public class TicTacToe extends JPanel{
             	}
             	
             	if(!consistEmpty) {
-            		JOptionPane.showConfirmDialog(null, "Draw! No one won!");
+            		int reply = JOptionPane.showConfirmDialog(null, "Draw! No one won!", "Do you want to play again?", JOptionPane.YES_NO_OPTION);
             		alternate = 0;
-            		resetButtons();
+            		resetButtons(reply);
             	} else {
                     if (alternate % 2 == 1) {
                     	aiLookup.move(alternate % 2);
@@ -101,12 +104,10 @@ public class TicTacToe extends JPanel{
              *      3 | 4 | 5
              *      6 | 7 | 8
              */
-        	int i = 0, ltrDiagonalCount, verticalCount, rtlDiagonalCount;
+        	int i = 0, verticalCount;
         	if (mode == 1) {
         		//3x3 board
-        		ltrDiagonalCount = 4;
         		verticalCount = 3;
-        		rtlDiagonalCount = 2;
         		
             	for(int j = 0; j < verticalCount; j ++){
             		//horizontal win check
@@ -120,19 +121,16 @@ public class TicTacToe extends JPanel{
                 i = 0;
                 
                 //diagonal win check
-            	if( checkAdjacent(i, ltrDiagonalCount) && checkAdjacent(ltrDiagonalCount, i + (ltrDiagonalCount*2)) )
+            	if( checkAdjacent(0, 4) && checkAdjacent(4, 8) )
             		return true;
             	
-            	i = i + rtlDiagonalCount;
-            	if( checkAdjacent(i,i + rtlDiagonalCount) && checkAdjacent(i + rtlDiagonalCount, i + (i + rtlDiagonalCount*2)) )
+            	if( checkAdjacent(2, 4) && checkAdjacent(4, 6) )
             		return true;
                 else 
                 	return false;
     		}else if (mode == 2) {
     			//4x4 board
-    			ltrDiagonalCount = 5;
         		verticalCount = 4;
-        		rtlDiagonalCount = 3;
             	for(int j = 0; j < verticalCount; j ++){
             		//horizontal win check
             		if( checkAdjacent(i,i + 1) && checkAdjacent(i + 1, i + 1 * 2) && checkAdjacent(i + 1 * 2, i + 1 * 3))
@@ -145,19 +143,16 @@ public class TicTacToe extends JPanel{
                 i = 0;
                 
                 //diagonal win check
-            	if( checkAdjacent(i, ltrDiagonalCount) && checkAdjacent(ltrDiagonalCount, i + (ltrDiagonalCount*2)) && checkAdjacent(i + (ltrDiagonalCount*2), i + (ltrDiagonalCount*3)))
+            	if( checkAdjacent(0, 5) && checkAdjacent(5, 10) && checkAdjacent(10, 15))
             		return true;
             	
-            	i = i + rtlDiagonalCount;
-            	if( checkAdjacent(i,i + rtlDiagonalCount) && checkAdjacent(i + rtlDiagonalCount, i + (i + rtlDiagonalCount*2)) && checkAdjacent(i + (i + rtlDiagonalCount*2), i + (i + rtlDiagonalCount*3)))
+            	if( checkAdjacent(3, 6) && checkAdjacent(6, 9) && checkAdjacent(9, 12))
             		return true;
                 else 
                 	return false;
     		}else if (mode == 3) {
     			// 5x5 board
-    			ltrDiagonalCount = 6;
         		verticalCount = 5;
-        		rtlDiagonalCount = 4;
         		for(int j = 0; j < verticalCount; j ++){
             		//horizontal win check
             		if( checkAdjacent(i,i + 1) && checkAdjacent(i + 1, i + 1 * 2) && checkAdjacent(i + 1 * 2, i + 1 * 3) && checkAdjacent(i + 1 * 3, i + 1 * 4)){
@@ -172,11 +167,10 @@ public class TicTacToe extends JPanel{
                 i = 0;
                 
                 //diagonal win check
-            	if( checkAdjacent(i, ltrDiagonalCount) && checkAdjacent(ltrDiagonalCount, i + (ltrDiagonalCount*2)) && checkAdjacent(i + (ltrDiagonalCount*2), i + (ltrDiagonalCount*3)) && checkAdjacent(i + (ltrDiagonalCount*3), i + (ltrDiagonalCount*4)))
+            	if( checkAdjacent(0, 6) && checkAdjacent(6, 12) && checkAdjacent(12, 18) && checkAdjacent(18, 24))
             		return true;
             	
-            	i = i + rtlDiagonalCount;
-            	if( checkAdjacent(i,i + rtlDiagonalCount) && checkAdjacent(i + rtlDiagonalCount, i + (i + rtlDiagonalCount*2)) && checkAdjacent(i + (i + rtlDiagonalCount*2), i + (i + rtlDiagonalCount*3)) && checkAdjacent(i + (i + rtlDiagonalCount*3), i + (i + rtlDiagonalCount*4)))
+            	if( checkAdjacent(4, 8) && checkAdjacent(8, 12) && checkAdjacent(12, 16) && checkAdjacent(16, 20))
             		return true;
                 else 
                 	return false;

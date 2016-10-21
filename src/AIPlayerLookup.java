@@ -15,7 +15,7 @@ public class AIPlayerLookup {
 	   
 	   // Move step
 	   public void move(int player) {
-		   int[] moveResult = minmax(4, player);
+		   int[] moveResult = minmax(3, player);
 		   if(player == 0) {
 			   System.out.println("Player moved");
 		   }else{
@@ -46,6 +46,7 @@ public class AIPlayerLookup {
 	               if (currentScore > bestScore) {
 	                  bestScore = currentScore;
 	                  bestMove = move;
+	                  System.out.println("Max: " + bestScore);
 	               }
 	            } else {  // Player is minimizing 
 	               buttons[move].setText("O");
@@ -53,6 +54,7 @@ public class AIPlayerLookup {
 	               if (currentScore < bestScore) {
 	                  bestScore = currentScore;
 	                  bestMove = move;
+	                  System.out.println("Min: " + bestScore);
 	               }
 	            }
 	            // Undo move
@@ -73,7 +75,7 @@ public class AIPlayerLookup {
 	    		i += verticalCount;
 	    	}
 			i = 0;
-			
+			System.out.println("Verticle score:" + score);
 		    score += new LineEvaluator(buttons, 0, 4, 8).evaluateLineSize3();  // diagonal
 		    score += new LineEvaluator(buttons, 2, 4, 6).evaluateLineSize3();  // alternate diagonal
 		}else if (mode == 2) {
