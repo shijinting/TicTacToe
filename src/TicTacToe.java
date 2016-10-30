@@ -42,9 +42,9 @@ public class TicTacToe extends JPanel{
 	
 	public void resetButtons(int reply) {
 		if(reply == JOptionPane.YES_OPTION) {
-			for(int i = 0; i < count; i++)
-	        {
+			for(int i = 0; i < count; i++){
 	            buttons[i].setText("");
+	            System.out.println(i);
 	        }
 		} else {
 			PlayGame.initMenu();

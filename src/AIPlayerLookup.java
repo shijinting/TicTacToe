@@ -30,7 +30,7 @@ public class AIPlayerLookup {
 	      List<Integer> nextMoves = generateMoves();
 	 
 	      // Computer is maximizing; while player is minimizing
-	      int bestScore = (player == 0) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+	      int bestScore = (player == 1) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
 	      int currentScore;
 	      int bestMove = -1;
 	      
@@ -40,27 +40,26 @@ public class AIPlayerLookup {
 	      } else {
 	         for (int move : nextMoves) {
 	            // Try this move for the current "player"
-	            if (player == 0) {  // Computer is maximizing
+	            if (player == 1) {  // Computer is maximizing
 	            	buttons[move].setText("X");
-	               currentScore = minmax(depth - 1, 1)[0];
+	               currentScore = minmax(depth - 1, 0)[0];
 	               if (currentScore > bestScore) {
 	                  bestScore = currentScore;
 	                  bestMove = move;
-	                  System.out.println("Max: " + bestScore);
 	               }
 	            } else {  // Player is minimizing 
 	               buttons[move].setText("O");
-	               currentScore = minmax(depth - 1, 0)[0];
+	               currentScore = minmax(depth - 1, 1)[0];
 	               if (currentScore < bestScore) {
 	                  bestScore = currentScore;
 	                  bestMove = move;
-	                  System.out.println("Min: " + bestScore);
 	               }
 	            }
 	            // Undo move
 	            buttons[move].setText("");
 	         }
 	      }
+	      System.out.println("Best Score " + bestScore + " Move" + bestMove);
 	      return new int[] {bestScore, bestMove};
 	   }
 	   
@@ -75,7 +74,6 @@ public class AIPlayerLookup {
 	    		i += verticalCount;
 	    	}
 			i = 0;
-			System.out.println("Verticle score:" + score);
 		    score += new LineEvaluator(buttons, 0, 4, 8).evaluateLineSize3();  // diagonal
 		    score += new LineEvaluator(buttons, 2, 4, 6).evaluateLineSize3();  // alternate diagonal
 		}else if (mode == 2) {
